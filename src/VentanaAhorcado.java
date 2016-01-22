@@ -2,6 +2,8 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,8 +21,10 @@ import javax.swing.JButton;
  * @author xp
  */
 public class VentanaAhorcado extends javax.swing.JFrame {
-
-    String palabraOculta = "CETYS";
+    
+    Random r = new Random();
+    int z = r.nextInt(9) ;
+    String palabraOculta;
     
     // contador para saber el número de fallos
     int numeroFallos = 0;
@@ -32,6 +36,10 @@ public class VentanaAhorcado extends javax.swing.JFrame {
         initComponents();
         //aquí va el código que poniamos en el run en ACM
         cambiaImagenAhorcado();
+        
+        palabrasLista();
+        
+        textoInicial();
         
     }
 
@@ -61,6 +69,41 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 
     }
          
+    private void palabrasLista(){
+        
+        String [] listaPalabras = new String[10];
+                listaPalabras[0]= "COCHE";
+                listaPalabras[1] = "MAQUINA";
+                listaPalabras[2] = "SALUDAR";
+                listaPalabras[3] = "PESCADO";
+                listaPalabras[4] = "CANCION";
+                listaPalabras[5] = "TELEVISOR";
+                listaPalabras[6] = "ORDENADOR";
+                listaPalabras[7] = "CAMION";
+                listaPalabras[8] = "TRACTOR";
+                listaPalabras[9] = "TECLADO";
+                
+                
+                
+                palabraOculta = listaPalabras[z]; 
+                System.out.println(listaPalabras[z]);
+                
+                      
+    }
+    
+    private void textoInicial(){
+        jLabel1.setText("");
+              
+        for (int i=0;i<palabraOculta.length();i++)  {
+            
+            jLabel1.setText(jLabel1.getText()+"_ " );
+            
+            
+        }
+    }
+    
+   
+    
 //    @Override
 //    public void paint (Graphics g){
 //        super.paint(g);
@@ -166,7 +209,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("_ _ _ _ _ ");
+        jLabel1.setToolTipText("");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 330, 69));
 
         jButton1.setText("A");
