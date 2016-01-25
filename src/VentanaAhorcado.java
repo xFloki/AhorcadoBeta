@@ -1,6 +1,10 @@
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
@@ -15,95 +19,147 @@ import javax.swing.JButton;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author xp
  */
 public class VentanaAhorcado extends javax.swing.JFrame {
-    
+
     Random r = new Random();
-    int z = r.nextInt(9) ;
+    int z = r.nextInt(9);
     String palabraOculta;
-    
+
     // contador para saber el número de fallos
     int numeroFallos = 0;
-    
+
     /**
      * Creates new form VentanaAhorcado
      */
-    public VentanaAhorcado() {
+    public VentanaAhorcado()  {
         initComponents();
         //aquí va el código que poniamos en el run en ACM
         cambiaImagenAhorcado();
-        
+
         palabrasLista();
-        
+
         textoInicial();
-        
+
     }
 
-    private void cambiaImagenAhorcado(){   
-        
+    private void cambiaImagenAhorcado() {
+
         String nombreImagen = "";
-        
-         switch (numeroFallos){
-                case 0: nombreImagen = "/ahorcado_0.png"; break;
-                case 1: nombreImagen = "/ahorcado_1.png"; break;
-                case 2: nombreImagen = "/ahorcado_2.png"; break;
-                case 3: nombreImagen = "/ahorcado_3.png"; break;
-                case 4: nombreImagen = "/ahorcado_4.png"; break;
-                case 5: nombreImagen = "/ahorcado_5.png"; break;
-                case 6: nombreImagen = "/ahorcado_fin.png"; break;
-                case -1 : nombreImagen = "/acertasteTodo.png"; break;
-                default : nombreImagen = "/ahorcado_fin.png"; break;
-            }
-         
+
+        switch (numeroFallos) {
+            case 0:
+                nombreImagen = "/ahorcado_0.png";
+                break;
+            case 1:
+                nombreImagen = "/ahorcado_1.png";
+                break;
+            case 2:
+                nombreImagen = "/ahorcado_2.png";
+                break;
+            case 3:
+                nombreImagen = "/ahorcado_3.png";
+                break;
+            case 4:
+                nombreImagen = "/ahorcado_4.png";
+                break;
+            case 5:
+                nombreImagen = "/ahorcado_5.png";
+                break;
+            case 6:
+                nombreImagen = "/ahorcado_fin.png";
+                break;
+            case -1:
+                nombreImagen = "/acertasteTodo.png";
+                break;
+            default:
+                nombreImagen = "/ahorcado_fin.png";
+                break;
+        }
+
          //Despues del switch, tendremos el nombreImagen 
-         
         ImageIcon a = new ImageIcon(getClass().getResource(nombreImagen));
         Image auxiliar = a.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
         ImageIcon imageIcon = new ImageIcon(auxiliar);
         jLabel2.setIcon(imageIcon);
-        
 
     }
-         
-    private void palabrasLista(){
+
+    private void palabrasLista()  {
+
+        //Método básico de lectura de ficheros en Java
+        File fichero = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        fichero = new File("src/lemario.txt");
+        Random x = new Random();
+        String linea = "";
         
-        String [] listaPalabras = new String[10];
-                listaPalabras[0]= "COCHE";
-                listaPalabras[1] = "MAQUINA";
-                listaPalabras[2] = "SALUDAR";
-                listaPalabras[3] = "PESCADO";
-                listaPalabras[4] = "CANCION";
-                listaPalabras[5] = "TELEVISOR";
-                listaPalabras[6] = "ORDENADOR";
-                listaPalabras[7] = "CAMION";
-                listaPalabras[8] = "TRACTOR";
-                listaPalabras[9] = "TECLADO";
-                
-                
-                
-                palabraOculta = listaPalabras[z]; 
-                System.out.println(listaPalabras[z]);
-                
-                      
-    }
-    
-    private void textoInicial(){
-        jLabel1.setText("");
-              
-        for (int i=0;i<palabraOculta.length();i++)  {
+        
+        try {
+            fr = new FileReader(fichero);
+            br = new BufferedReader(fr);
             
-            jLabel1.setText(jLabel1.getText()+"_ " );
+            int numeroLineasFichero = 0;
+                
             
+            while((linea = br.readLine()) != null) {
+                    numeroLineasFichero++;
+                    
+                }        
+            System.out.println(numeroLineasFichero);
+            int lineaSeleccionada = x.nextInt(numeroLineasFichero);
+            System.out.println(lineaSeleccionada);
+            
+            
+            fr.close();
+            fr = new FileReader(fichero);
+            br = new BufferedReader(fr);
+            for (int i =0; i<lineaSeleccionada; i++){
+                linea = br.readLine();
+            }
+            System.out.println(linea);
             
         }
+         catch (FileNotFoundException ex) {
+            Logger.getLogger(VentanaAhorcado.class.getName()).log(Level.SEVERE, null, ex);
+        
+          } 
+         catch (IOException ex) {
+                Logger.getLogger(VentanaAhorcado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        palabraOculta=linea;
+//
+//        String[] listaPalabras = new String[10];
+//        listaPalabras[0] = "COCHE";
+//        listaPalabras[1] = "MAQUINA";
+//        listaPalabras[2] = "SALUDAR";
+//        listaPalabras[3] = "PESCADO";
+//        listaPalabras[4] = "CANCION";
+//        listaPalabras[5] = "TELEVISOR";
+//        listaPalabras[6] = "ORDENADOR";
+//        listaPalabras[7] = "CAMION";
+//        listaPalabras[8] = "TRACTOR";
+//        listaPalabras[9] = "TECLADO";
+//
+//        palabraOculta = listaPalabras[z];
+//        System.out.println(listaPalabras[z]);
+
     }
-    
-   
-    
+
+    private void textoInicial() {
+        jLabel1.setText("");
+
+        for (int i = 0; i < palabraOculta.length(); i++) {
+
+            jLabel1.setText(jLabel1.getText() + "_ ");
+
+        }
+    }
+
 //    @Override
 //    public void paint (Graphics g){
 //        super.paint(g);
@@ -130,41 +186,37 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 //        //dibujo la imagen en el jPanel
 //        g.drawImage(miImagen, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), null);
 //    }
-    
-    
-  
-    private void chequeaLetra(JButton boton){
-        if (boton.isEnabled()){
-            String letra = boton.getText(); 
+    private void chequeaLetra(JButton boton) {
+        if (boton.isEnabled()) {
+            String letra = boton.getText().toLowerCase();
             boton.setEnabled(false);
             String palabraConGuiones = jLabel1.getText();
 
-            if (palabraOculta.contains(letra)){
-                for (int i=0; i< palabraOculta.length(); i++){
-                   if (palabraOculta.charAt(i) == letra.charAt(0)){
-                       palabraConGuiones = 
-                                 palabraConGuiones.substring(0, 2*i)
-                               + letra
-                               + palabraConGuiones.substring(2*i +1);
-                   }
+            if (palabraOculta.contains(letra)) {
+                for (int i = 0; i < palabraOculta.length(); i++) {
+                    if (palabraOculta.charAt(i) == letra.charAt(0)) {
+                        palabraConGuiones
+                                = palabraConGuiones.substring(0, 2 * i)
+                                + letra
+                                + palabraConGuiones.substring(2 * i + 1);
+                    }
                 }
                 jLabel1.setText(palabraConGuiones);
-                
+
                 //compruebo si en la palabraConGuiones hay guiones o no
                 // si hay algún guión no hago nada porque no he adivinado todavia la partida
                 // si no hay guiones, tengo que indicar de alguna forma que he ganado la partida
-                if (!palabraConGuiones.contains("_")){
+                if (!palabraConGuiones.contains("_")) {
                     numeroFallos = -1;
                 }
-            }
-            else{
+            } else {
                 numeroFallos++;
-                
+
             }
         }
         cambiaImagenAhorcado();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -203,6 +255,8 @@ public class VentanaAhorcado extends javax.swing.JFrame {
         jButton27 = new javax.swing.JButton();
         jButton28 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -429,115 +483,121 @@ public class VentanaAhorcado extends javax.swing.JFrame {
         getContentPane().add(jButton28, new org.netbeans.lib.awtextra.AbsoluteConstraints(298, 454, 42, 42));
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 200, 200));
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, 330, 170));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton2MousePressed
 
     private void jButton3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton3MousePressed
 
     private void jButton4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton4MousePressed
 
     private void jButton5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton5MousePressed
 
     private void jButton6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton6MousePressed
 
     private void jButton7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton7MousePressed
 
     private void jButton8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton8MousePressed
 
     private void jButton9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton9MousePressed
 
     private void jButton10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton10MousePressed
 
     private void jButton11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton11MousePressed
 
     private void jButton12MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton12MousePressed
 
     private void jButton13MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton13MousePressed
 
     private void jButton14MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton14MousePressed
 
     private void jButton15MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton15MousePressed
 
     private void jButton16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton16MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton16MousePressed
 
     private void jButton17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton17MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton17MousePressed
 
     private void jButton18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton18MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton18MousePressed
 
     private void jButton19MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton19MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton19MousePressed
 
     private void jButton20MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton20MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton20MousePressed
 
     private void jButton21MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton21MousePressed
 
     private void jButton22MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton22MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton22MousePressed
 
     private void jButton23MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton23MousePressed
 
     private void jButton24MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton24MousePressed
 
     private void jButton26MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton26MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton26MousePressed
 
     private void jButton27MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton27MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton27MousePressed
 
     private void jButton28MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton28MousePressed
-        chequeaLetra((JButton)evt.getSource());
+        chequeaLetra((JButton) evt.getSource());
     }//GEN-LAST:event_jButton28MousePressed
 
     /**
@@ -605,5 +665,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
